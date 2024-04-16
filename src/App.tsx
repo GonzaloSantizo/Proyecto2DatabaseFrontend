@@ -6,6 +6,7 @@ import { Button, Flex } from '@mantine/core';
 import Main from './Pages/Main';
 import Product from './Pages/Retail/Product';
 import Manufacturer from './Pages/Manufacturer/Manufacturer';
+import Orders from './Pages/Retail/Orders';
 
 function Warehouse() {
   return <h1>Warehouse Layout</h1>;
@@ -19,6 +20,7 @@ function App() {
       <Route path="/retail" element={<RetailLayout />}>
         <Route path="products" element={<Products />} />
         <Route path="products/:productId" element={<Product />} />
+        <Route path="orders" element={<Orders />} />
       </Route>
 
       <Route path="/warehouse" element={<Warehouse />}>

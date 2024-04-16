@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ShoppingCartIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -74,7 +75,7 @@ export default function Product() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row p-6 md:w-3/4 mx-auto bg-white shadow-md rounded-sm">
+    <div className="flex flex-col md:flex-row p-6 md:w-3/4 mx-auto bg-white shadow-md rounded-md">
       <div className="w-full md:w-1/2">
         <img
           className="w-full h-auto"
@@ -89,25 +90,25 @@ export default function Product() {
         <div>
           <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
           <p className="text-2xl text-gray-600 mb-2">{product.price} USD</p>
-          <p className="text-xl text-gray-600 mb-2">SKU: {product.sku}</p>
-          <p className="text-xl text-gray-600 mb-2">
+          <p className="text-base text-gray-600 mb-2">SKU: {product.sku}</p>
+          <p className="text-base text-gray-600 mb-2">
             Warehouse: {product.warehouse.name}
           </p>
-          <p className="text-xl text-gray-600 mb-2">
+          <p className="text-base text-gray-600 mb-2">
             Location: {product.warehouse.location}
           </p>
-          <p className="text-xl text-green-600 mt-4">
+          <p className="text-base text-green-600 mt-4">
             In Stock. {product.warehouse.capacity} units remaining
           </p>
         </div>
 
         <div className="flex w-full justify-end space-x-3 items-center">
-          <div className="w-36">
+          <div className="w-32">
             <NumericInput />
           </div>
 
-          <button className="flex-grow bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add to Cart
+          <button className="flex flex-1  justify-center gap-2 items-center h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded transition-colors">
+            <ShoppingCartIcon size={15} /> Add to Cart
           </button>
         </div>
       </div>

@@ -5,10 +5,13 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
+    'node_modules/preline/dist/*.js',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require('preline/plugin'),
+    require('@tailwindcss/forms'),
+  ],
 }
