@@ -7,6 +7,7 @@ import Main from './Pages/Main';
 import Product from './Pages/Retail/Product';
 import Manufacturer from './Pages/Manufacturer/Manufacturer';
 import Orders from './Pages/Retail/Orders';
+//import { CartProvider } from './Pages/Retail/CartContext'
 
 function Warehouse() {
   return <h1>Warehouse Layout</h1>;
