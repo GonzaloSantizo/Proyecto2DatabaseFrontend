@@ -13,7 +13,6 @@ function Warehouse() {
   return <h1>Warehouse Layout</h1>;
 }
 
-
 function App() {
   return (
     <Routes>
