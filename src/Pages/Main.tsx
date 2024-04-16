@@ -1,27 +1,26 @@
-import { Flex, Button, Stack } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import styles from './Main.module.css';
 
 export default function Main() {
   return (
-    <Flex className={styles.container}>
-      <Stack
-        h={300}
-        bg="var(--mantine-color-body)"
-        align="stretch"
-        justify="center"
-        gap="md"
-      >
-        <Button component={Link} to="/retail" className="link" fullWidth>
-          Retail
-        </Button>
-        <Button component={Link} to="/warehouse" className="link" fullWidth>
-          Warehouse
-        </Button>
-        <Button component={Link} to="/manufacturer" className="link" fullWidth>
-          Manufacturer
-        </Button>
-      </Stack>
-    </Flex>
+    <div className={styles.container}>
+      <div className="flex flex-col gap-4">
+        <Link to="/retail/products">
+          <button className="bg-gradient-to-t from-blue-600 to-blue-500 px-2 py-1 rounded-lg text-white w-full">
+            Retail
+          </button>
+        </Link>
+        <Link to="/warehouse" className="link">
+          <button className="bg-gradient-to-t from-blue-600 to-blue-500 px-2 py-1 rounded-lg text-white w-full">
+            Warehouse
+          </button>
+        </Link>
+        <Link to="/manufacturer" className="link">
+          <button className="bg-gradient-to-t from-blue-600 to-blue-500 px-2 py-1 rounded-lg text-white w-full">
+            Manufacturer
+          </button>
+        </Link>
+      </div>
+    </div>
   );
 }

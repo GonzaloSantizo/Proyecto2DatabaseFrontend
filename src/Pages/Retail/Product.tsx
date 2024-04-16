@@ -1,0 +1,116 @@
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+type Product = {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  sku: string;
+  warehouse: {
+    name: string;
+    location: string;
+    id: string;
+    capacity: number;
+  };
+};
+
+function NumericInput() {
+  const [value, setValue] = useState(1);
+
+  const increment = () => {
+    setValue(value + 1);
+  };
+
+  const decrement = () => {
+    if (value > 1) {
+      setValue(value - 1);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-between w-full border border-gray-200 rounded">
+      <button
+        onClick={decrement}
+        className="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-10 w-10  cursor-pointer"
+      >
+        -
+      </button>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => setValue(Number(e.target.value))}
+        className="text-center w-full border-none px-2 py-2"
+      />
+      <button
+        onClick={increment}
+        className="bg-gray-200 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-10 w-10  cursor-pointer"
+      >
+        +
+      </button>
+    </div>
+  );
+}
+
+export default function Product() {
+  const { productId } = useParams();
+  const [product, setProduct] = useState<Product | null>(null);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/retail/products/${productId}`)
+      .then((response) => {
+        setProduct(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching product details:', error);
+      });
+  }, [productId]);
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="flex flex-col md:flex-row p-6 md:w-3/4 mx-auto bg-white shadow-md rounded-sm">
+      <div className="w-full md:w-1/2">
+        <img
+          className="w-full h-auto"
+          src={
+            product.image_url ||
+            'https://psediting.websites.co.in/obaju-turquoise/img/product-placeholder.png'
+          }
+          alt={product.name}
+        />
+      </div>
+      <div className="w-full md:w-1/2 mt-4 md:mt-0 md:pl-6 flex flex-col justify-between">
+        <div>
+          <h2 className="text-3xl font-bold mb-2">{product.name}</h2>
+          <p className="text-2xl text-gray-600 mb-2">{product.price} USD</p>
+          <p className="text-xl text-gray-600 mb-2">SKU: {product.sku}</p>
+          <p className="text-xl text-gray-600 mb-2">
+            Warehouse: {product.warehouse.name}
+          </p>
+          <p className="text-xl text-gray-600 mb-2">
+            Location: {product.warehouse.location}
+          </p>
+          <p className="text-xl text-green-600 mt-4">
+            In Stock. {product.warehouse.capacity} units remaining
+          </p>
+        </div>
+
+        <div className="flex w-full justify-end space-x-3 items-center">
+          <div className="w-36">
+            <NumericInput />
+          </div>
+
+          <button className="flex-grow bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

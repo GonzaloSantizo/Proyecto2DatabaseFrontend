@@ -1,33 +1,19 @@
-import { Outlet, NavLink } from 'react-router-dom';
-import { Box, Text } from '@mantine/core';
+import { Link, Outlet } from 'react-router-dom';
 
-export function RetailLayout() {
+export default function RetailLayout() {
   return (
-    <Box>
-      <Box width={{ base: 300 }} p="xs" bg="gray.1">
-        <Text size="xl" weight={500} mb="md">
-          Retail Navigation
-        </Text>
-        <NavLink
-          to="/retail/products"
-          className={({ isActive }) =>
-            isActive ? 'active-link' : 'inactive-link'
-          }
-        >
-          Products
-        </NavLink>
-        <NavLink
-          to="/retail/orders"
-          className={({ isActive }) =>
-            isActive ? 'active-link' : 'inactive-link'
-          }
-        >
-          Orders
-        </NavLink>
-      </Box>
-      <Box p="md">
+    <div className="flex flex-col h-screen bg-slate-100">
+      <header className="flex justify-between gap-4 shadow-sm border p-4 bg-white">
+        <h1 className="font-bold">Retail</h1>
+        <div className="flex gap-4">
+          <Link to="products">Products</Link>
+          <Link to="cart">Cart</Link>
+          <Link to="orders">Orders</Link>
+        </div>
+      </header>
+      <div className=" bg-slate-100 p-4">
         <Outlet />
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 }
