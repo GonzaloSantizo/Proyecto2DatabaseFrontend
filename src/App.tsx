@@ -5,14 +5,12 @@ import Products from './Pages/Retail/Products';
 import { Button, Flex } from '@mantine/core';
 import Main from './Pages/Main';
 import Product from './Pages/Retail/Product';
+import Manufacturer from './Pages/Manufacturer/Manufacturer';
 
 function Warehouse() {
   return <h1>Warehouse Layout</h1>;
 }
 
-function Manufacturer() {
-  return <h1>Manufacturer Layout</h1>;
-}
 
 function App() {
   return (
