@@ -6,9 +6,14 @@ const MainPage = () => {
     }
 
     return (
-        <button onClick={sayHi}>
+        <article>
+            <h1>Main Page</h1>
+            <p>This is the main page</p>
+            
+            <button onClick={sayHi}>
             Click me
-        </button>
+            </button>
+        </article>
     );
 }
 
