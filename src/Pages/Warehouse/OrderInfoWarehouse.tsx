@@ -54,7 +54,6 @@ export default function OrderInfoWarehouse() {
     }
   };
 
-
   function generateShipmentId() {
     return (
       Math.random().toString(36).substring(2, 15) +
@@ -67,14 +66,15 @@ export default function OrderInfoWarehouse() {
   }, [orderId]);
 
   async function handleCreateShipment() {
-    console.log(order)
+    console.log(order);
     try {
       const shipmentId = generateShipmentId();
+      console.log(order)
       const { data } = await axios.post(
         "http://localhost:4000/warehouse/shipment",
         {
-          warehouseId: order.warehouses,
-          productName: order.products,
+          warehouseId: order.warehouses[0],
+          productName: order.products[0], // Assuming the product object has a name property
           orderId: order.id,
           shipmentId: shipmentId,
         }
@@ -168,7 +168,6 @@ export default function OrderInfoWarehouse() {
         <button
           type="button"
           className="py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-500 text-white hover:bg-gray-600 disabled:opacity-50 disabled:pointer-events-none"
-          onClick={() => handleDeclineOrder()}
         >
           Decline Order
         </button>
