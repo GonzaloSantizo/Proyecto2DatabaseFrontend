@@ -5,12 +5,17 @@ import Products from './Pages/Retail/Products';
 import { Button, Flex } from '@mantine/core';
 import Main from './Pages/Main';
 import Product from './Pages/Retail/Product';
-import Manufacturer from './Pages/Manufacturer/Manufacturer';
 import Orders from './Pages/Retail/Orders';
-import Warehouse from './Pages/Warehouse/Stock';
 //import { CartProvider } from './Pages/Retail/CartContext'
 
+function Warehouse() {
+  return <h1>Warehouse Layout</h1>;
 
+}
+
+function Manufacturer() {
+  return <h1>Manufacturer Layout</h1>;
+}
 
 function App() {
   return (
