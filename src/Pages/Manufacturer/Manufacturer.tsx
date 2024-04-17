@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+type Manufacturer = {
+  id: string;
+  name: string;
+};
 
 type Supplier = {
   id: string;
@@ -15,11 +19,25 @@ type Product = {
 };
 
 function Manufacturer() {
+  const [manufacturers, setManufacturers] = useState<Manufacturer[]>([]);
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedWarehouse, setSelectedWarehouse] = useState<string | null>(
-    null
-  );
+
+  const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null);
+
+  const handleManufacturerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedManufacturer(event.target.value);
+  };
+
+  useEffect(() => {
+    axios.get('http://localhost:4000/manufacturers')
+      .then(response => {
+        setManufacturers(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
 
   useEffect(() => {
     const manufacturerId = 'id_yuya'; // Replace with actual manufacturer ID
@@ -50,6 +68,28 @@ function Manufacturer() {
   return (
 
     <div>
+      <div className="mb-4">
+        <label
+          htmlFor="manufacturer-select"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Select Manufacturer:
+        </label>
+        <select
+          id="manufacturer-select"
+          className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          value={selectedManufacturer || ''}
+          onChange={handleManufacturerChange}
+        >
+          <option value="">All Manufacturers</option>
+          {manufacturers &&
+            manufacturers.map((manufacturer: Manufacturer) => (
+              <option key={manufacturer.id} value={manufacturer.id}>
+                {manufacturer.name || 'Unknown'}
+              </option>
+            ))}
+        </select>
+      </div>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <div className="mb-4">
           <h1 className="block text-sm font-medium text-gray-700">
