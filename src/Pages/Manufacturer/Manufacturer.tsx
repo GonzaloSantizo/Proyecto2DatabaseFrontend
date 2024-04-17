@@ -63,7 +63,7 @@ function Manufacturer() {
   }, []);
 
   useEffect(() => {
-    axios.get('http://localhost:4000/warehouse/') // Asegúrate de que esta es la ruta correcta
+    axios.get('http://localhost:4000/warehouse/') 
       .then(response => {
         setWarehouses(response.data);
       })
