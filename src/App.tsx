@@ -16,6 +16,7 @@ import Manufacturer from './Pages/Manufacturer/Manufacturer';
 import Warehouse from './Pages/Warehouse/Stock';
 import OrderInfoWarehouse from './Pages/Warehouse/OrderInfoWarehouse';
 import ManufacturerLayout from './Layouts/ManufacturerLayout';
+import NewProduct from './Pages/Manufacturer/NewProduct';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/manufacturer" element={<ManufacturerLayout />}>
           <Route path="suppliers" element={<Manufacturer />} />
           <Route path="products" element={<ManufactureProducts />} />
+          <Route path="products/new" element={<NewProduct />} />
         </Route>
       </Routes>
     </CartProvider>
