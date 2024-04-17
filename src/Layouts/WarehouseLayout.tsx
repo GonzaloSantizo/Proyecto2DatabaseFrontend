@@ -1,59 +1,34 @@
-// WarehouseLayout.tsx
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useParams, Outlet } from 'react-router-dom';
-import axios from 'axios';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 
-// Definir tipos para los datos del almacén
-type Warehouse = {
-  id: string;
-  name: string;
-  location: string;
-  capacity: number;
-};
-
-// Crear un contexto para el almacén
-const WarehouseContext = createContext<Warehouse | null>(null);
-
-// Crear un tipo para las propiedades de WarehouseProvider
-type WarehouseProviderProps = {
-  children: ReactNode;
-};
-
-// Crear un proveedor de contexto para el almacén
-const WarehouseProvider: React.FC<WarehouseProviderProps> = ({ children }) => {
-  const [warehouse, setWarehouse] = useState<Warehouse | null>(null);
-  const { warehouseId } = useParams<{ warehouseId?: string }>();
-
-  useEffect(() => {
-    if (warehouseId) {
-      axios.get(`http://localhost:4000/warehouse/${warehouseId}`)
-        .then(response => {
-          setWarehouse(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching warehouse details:', error);
-        });
-    }
-  }, [warehouseId]);
+export default function WarehouseLayout() {
+  const location = useLocation();
 
   return (
-    <WarehouseContext.Provider value={warehouse}>
-      {children}
-    </WarehouseContext.Provider>
-  );
-};
-
-// El componente principal de layout que utiliza WarehouseProvider
-const WarehouseLayout: React.FC = () => {
-  return (
-    <WarehouseProvider>
-      <div>
-        <h1>Disposición del Almacén</h1>
-        <Outlet /> {/* Este Outlet renderizará componentes según la ruta actual dentro de WarehouseLayout */}
+    <div className="flex flex-col h-screen bg-slate-100">
+      <header className="flex justify-between gap-4 shadow-sm border p-4 bg-white">
+        <h1 className="font-bold">Warehouses</h1>
+        <div className="flex gap-4">
+          <NavLink
+            to="Warehouse"
+            className={({ isActive }) =>
+              isActive ? 'text-blue-500 font-bold' : 'text-gray-500'
+            }
+          >
+            Stock
+          </NavLink>
+          <NavLink
+            to="OrdersWarehouse"
+            className={({ isActive }) =>
+              isActive ? 'text-blue-500 font-bold' : 'text-gray-500'
+            }
+          >
+            Orders
+          </NavLink>
+        </div>
+      </header>
+      <div className=" bg-slate-100 p-4">
+        <Outlet />
       </div>
-    </WarehouseProvider>
+    </div>
   );
-};
-
-// Exportar el contexto para que pueda ser utilizado por otros componentes
-export { WarehouseContext, WarehouseLayout };
+}

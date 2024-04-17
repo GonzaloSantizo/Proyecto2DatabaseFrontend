@@ -1,10 +1,12 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import RetailLayout from './Layouts/RetailLayout';
+import WarehouseLayout from './Layouts/WarehouseLayout';
 import Products from './Pages/Retail/Products';
 import Main from './Pages/Main';
 import Product from './Pages/Retail/Product';
 import Orders from './Pages/Retail/Orders';
+import OrdersWarehouse from './Pages/Warehouse/OrdersWarehouse';
 import { CartProvider } from './Pages/Retail/CartContext';
 import Cart from './Pages/Retail/Cart';
 import { Toaster } from 'sonner';
@@ -28,8 +30,10 @@ function App() {
           <Route path="order/:orderId" element={<Order />} />
         </Route>
 
-        <Route path="/warehouse" element={<Warehouse />}>
-          <Route index element={<Warehouse />} />
+        <Route path="/warehouse" element={<WarehouseLayout />}>
+          <Route index element={<OrdersWarehouse />} />
+          <Route path="orders" element={<Warehouse />} />
+          <Route path="orders" element={<OrdersWarehouse />} />
         </Route>
         <Route path="/manufacturer" element={<Manufacturer />} />
       </Routes>
