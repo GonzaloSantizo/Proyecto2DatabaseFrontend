@@ -15,7 +15,7 @@ export default function Main() {
             Warehouse
           </button>
         </Link>
-        <Link to="/Manufacturer" className="link">
+        <Link to="/manufacturer/suppliers" className="link">
           <button className="bg-gradient-to-t from-blue-600 to-blue-500 px-2 py-1 rounded-lg text-white w-full">
             Manufacturer
           </button>

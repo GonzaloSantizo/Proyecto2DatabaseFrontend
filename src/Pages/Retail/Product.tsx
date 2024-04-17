@@ -20,9 +20,7 @@ type Product = {
   };
 };
 
-function NumericInput() {
-  const [value, setValue] = useState(1);
-
+function NumericInput({ value, setValue }) {
   const increment = () => {
     setValue(value + 1);
   };
@@ -58,8 +56,12 @@ function NumericInput() {
 }
 
 export default function Product() {
-  const { productId } = useParams();
+  const { productId, warehouseId } = useParams<{
+    productId: string;
+    warehouseId: string;
+  }>();
   const [product, setProduct] = useState<Product | null>(null);
+  const [quantity, setQuantity] = useState(1);
 
   const { addToCart } = useCart();
 
@@ -69,10 +71,12 @@ export default function Product() {
       position: 'bottom-right',
       duration: 1000,
     });
+    console.log('Adding to cart:', product);
+    console.log('Quantity:', quantity);
     addToCart({
       id: product.id,
       name: product.name,
-      quantity: 1,
+      quantity: quantity,
       price: product.price,
       warehouse: product.warehouse,
     });
@@ -80,14 +84,16 @@ export default function Product() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/retail/products/${productId}`)
+      .get(
+        `http://localhost:4000/retail/products/${productId}?warehouseId=${warehouseId}` // Add warehouseId to the URL
+      )
       .then((response) => {
         setProduct(response.data);
       })
       .catch((error) => {
         console.error('Error fetching product details:', error);
       });
-  }, [productId]);
+  }, [productId, warehouseId]);
 
   if (!product) {
     return <div>Loading...</div>;
@@ -123,7 +129,7 @@ export default function Product() {
 
         <div className="flex w-full justify-end space-x-3 items-center">
           <div className="w-32">
-            <NumericInput />
+            <NumericInput value={quantity} setValue={setQuantity} />
           </div>
 
           <button

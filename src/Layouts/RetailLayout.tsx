@@ -4,7 +4,7 @@ export default function RetailLayout() {
   const location = useLocation();
 
   return (
-    <div className="flex flex-col h-screen bg-slate-100">
+    <div className="flex flex-col h-screen bg-slate-100 font-poppins">
       <header className="flex justify-between gap-4 shadow-sm border p-4 bg-white">
         <h1 className="font-bold">Retail</h1>
         <div className="flex gap-4">
