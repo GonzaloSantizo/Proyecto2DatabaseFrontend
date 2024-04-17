@@ -1,12 +1,12 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import {
   FaBoxOpen,
   FaMoneyBillAlt,
   FaShippingFast,
   FaWarehouse,
-} from "react-icons/fa";
-import { useParams } from "react-router-dom";
+} from 'react-icons/fa';
+import { useParams } from 'react-router-dom';
 
 interface Product {
   price: number;
@@ -50,7 +50,7 @@ export default function OrderInfoWarehouse() {
       );
       setOrder(data);
     } catch (error) {
-      console.error("Error fetching order:", error);
+      console.error('Error fetching order:', error);
     }
   };
 
@@ -69,21 +69,31 @@ export default function OrderInfoWarehouse() {
     console.log(order);
     try {
       const shipmentId = generateShipmentId();
-      console.log(order)
+      console.log('ORDER:', order);
+
+      const shipmentData = {
+        shipmentDate: new Date().toISOString(),
+        estimatedDelivery: new Date(
+          new Date().getTime() + 3 * 24 * 60 * 60 * 1000
+        ).toISOString(),
+        trackingNumber:
+          Math.random().toString(36).substring(2, 15) +
+          Math.random().toString(36).substring(2, 15),
+        status: 'PENDING',
+        carrier: 'Express Logistics',
+        shippingCost: Math.floor(Math.random() * 100) + 1,
+      };
+
       const { data } = await axios.post(
-        "http://localhost:4000/warehouse/shipment",
-        {
-          warehouseId: order.warehouses[0],
-          productName: order.products[0], // Assuming the product object has a name property
-          orderId: order.id,
-          shipmentId: shipmentId,
-        }
+        `http://localhost:4000/warehouse/orders/${order.id}/shipments`,
+        shipmentData
       );
-      console.log("Shipment:", data);
+
+      console.log('Shipment:', data);
       // Refresh the order after creating the shipment
       fetchOrder();
     } catch (error) {
-      console.error("Error creating shipment:", error);
+      console.error('Error creating shipment:', error);
     }
   }
 
@@ -101,8 +111,8 @@ export default function OrderInfoWarehouse() {
                 {productWithQuantity.product.name}
               </p>
               <p>SKU: {productWithQuantity.product.sku}</p>
-              <p>Price: ${productWithQuantity.product.price.toFixed(2)}</p>
-              <p>Quantity: {productWithQuantity.quantity ?? "N/A"}</p>
+              <p>Price: ${productWithQuantity.product.price?.toFixed(2)}</p>
+              <p>Quantity: {productWithQuantity.quantity ?? 'N/A'}</p>
             </div>
           ))}
         </div>
@@ -135,15 +145,15 @@ export default function OrderInfoWarehouse() {
               </p>
               <p className="text-sm">Shipment Date: {shipment.shipmentDate}</p>
               <p className="text-sm">
-                Estimated Delivery: {shipment.estimatedDelivery ?? "N/A"}
+                Estimated Delivery: {shipment.estimatedDelivery ?? 'N/A'}
               </p>
               <p className="text-sm">Status: {shipment.status}</p>
-              <p className="text-sm">Carrier: {shipment.carrier ?? "N/A"}</p>
+              <p className="text-sm">Carrier: {shipment.carrier ?? 'N/A'}</p>
               <p className="text-sm">
-                Shipping Cost:{" "}
+                Shipping Cost:{' '}
                 {shipment.shippingCost
                   ? `$${shipment.shippingCost.toFixed(2)}`
-                  : "N/A"}
+                  : 'N/A'}
               </p>
             </div>
           ))
@@ -154,7 +164,10 @@ export default function OrderInfoWarehouse() {
       <div className="mt-8 flex justify-end">
         <div className="bg-gray-100 p-4 rounded-md shadow-md flex items-center">
           <FaMoneyBillAlt className="mr-2 text-green-500" />
-          <p className="text-xl font-bold">Total: ${order?.total.toFixed(2)}</p>
+          <p className="text-xl font-bold">
+            {' '}
+            Total: ${order?.total?.toFixed(2)}
+          </p>
         </div>
       </div>
       <div>
