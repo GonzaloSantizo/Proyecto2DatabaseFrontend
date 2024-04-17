@@ -88,7 +88,7 @@ export default function OrdersWarehouse() {
           <div key={order.id} className="bg-white shadow-md rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">
-                <Link to={`/retail/order/${order.id}`}>
+                <Link to={`/warehouse/orderinfowarehouse/${order.id}`}>
                   ORD-{order.id.slice(0, 5).toUpperCase()}
                 </Link>
               </h2>

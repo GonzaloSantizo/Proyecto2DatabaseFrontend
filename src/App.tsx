@@ -13,6 +13,7 @@ import { Toaster } from 'sonner';
 import Order from './Pages/Retail/Order';
 import  Manufacturer  from './Pages/Manufacturer/Manufacturer';
 import Warehouse from './Pages/Warehouse/Stock';
+import OrderInfoWarehouse from './Pages/Warehouse/OrderInfoWarehouse';
 
 
 
@@ -31,9 +32,10 @@ function App() {
         </Route>
 
         <Route path="/warehouse" element={<WarehouseLayout />}>
-          <Route index element={<Warehouse />} />
+          <Route index element={<OrdersWarehouse />} />
           <Route path="orders" element={<Warehouse />} />
           <Route path="orders" element={<OrdersWarehouse />} />
+          <Route path="orderinfowarehouse/:orderId" element={<OrderInfoWarehouse />} />
         </Route>
         <Route path="/manufacturer" element={<Manufacturer />} />
       </Routes>
