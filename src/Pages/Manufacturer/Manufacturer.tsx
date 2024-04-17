@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+
 type Supplier = {
   id: string;
   name: string;
 };
 
 type Product = {
-  id: string;
+  id: number;
   name: string;
+  price: number;
+  image_url: string;
 };
 
 function Manufacturer() {
   const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     const manufacturerId = 'id_yuya'; // Replace with actual manufacturer ID
@@ -63,15 +69,27 @@ function Manufacturer() {
         </div>
       </div>
 
-      <div>
-        <h2 className="block text-sm font-medium text-gray-700 mt-4">
-            Products for current Makeup Manufacturer:
-          </h2>
-          {products.map((product, index) => (
-            <div key={index}>
-              {product}
+      <div className="flex justify-center">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+          {Array.isArray(products) && products.map((product, index) => (
+            <div key={index} className="group w-1/2 h-1/2">
+              <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+                <img
+                  src={
+                    'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'
+                  }
+                  alt={product}
+                  className="w-full h-[10rem] object-center object-cover"
+                />
+              </div>
+              <div>
+                <h3 className="mt-4 text-sm text-gray-700">
+                  {product}
+                </h3>
+              </div>
             </div>
           ))}
+        </div>
       </div>
     </div>
   );
