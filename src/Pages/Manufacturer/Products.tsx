@@ -99,11 +99,13 @@ function Products() {
     fetchProducts();
   };
 
+  const [selectedProducts, setSelectedProducts] = useState([]);
+
   return (
     <div className="container mx-auto  py-2">
       <h1 className="text-3xl font-bold mb-8">Products</h1>
       {/* Filters */}
-      <div className="mb-8 flex items-center justify-between w-1/2 mx-auto bg-white p-3 rounded-full shadow-sm border-t border-white border-b-2 border-r-2 border-l-2">
+      <div className="mb-8 flex items-center justify-between w-lg mx-auto bg-white p-3 rounded-full shadow-sm border-t border-white border-b-2 border-r-2 border-l-2">
         <div className="flex ml-3">
           <div className="mr-4 flex gap-3 items-center justify-center">
             <select
@@ -133,6 +135,32 @@ function Products() {
               <option value="high-to-low">High to Low</option>
             </select>
           </div>
+
+          {/* button to delete all selected */}
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+            onClick={async () => {
+              try {
+                await Promise.all(
+                  selectedProducts.map((productId) =>
+                    axios.delete(
+                      `http://localhost:4000/manufacturer/product/${productId}`
+                    )
+                  )
+                );
+
+                fetchProducts();
+                toast.success('Products deleted successfully', {
+                  position: 'bottom-right',
+                  duration: 1000,
+                });
+              } catch (error) {
+                console.error('Error deleting products:', error);
+              }
+            }}
+          >
+            Delete
+          </button>
         </div>
 
         <Link
@@ -157,6 +185,20 @@ function Products() {
               key={product.id}
               className="bg-white rounded-lg shadow-sm p-6 flex"
             >
+              <input
+                type="checkbox"
+                className="mr-2"
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setSelectedProducts([...selectedProducts, product.id]);
+                  } else {
+                    setSelectedProducts(
+                      selectedProducts.filter((p) => p.id !== product.id)
+                    );
+                  }
+                }}
+              />
+
               <div className="mr-6">
                 <img
                   src={
