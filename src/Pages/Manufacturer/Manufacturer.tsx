@@ -10,6 +10,17 @@ type Supplier = {
   id: string;
   name: string;
 };
+type Warehouse = {
+  name: string;
+  location: string;
+  id: string;
+  certifications: string[];
+  capacity: {
+    low: number;
+    high: number;
+  };
+};
+
 
 type Product = {
   id: number;
@@ -24,6 +35,7 @@ function Manufacturer() {
   const [products, setProducts] = useState<Product[]>([]);
 
   const [selectedManufacturer, setSelectedManufacturer] = useState<string | null>(null);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
 
   const handleManufacturerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedManufacturer(event.target.value);
@@ -51,6 +63,17 @@ function Manufacturer() {
   }, []);
 
   useEffect(() => {
+    axios.get('http://localhost:4000/warehouse/') // Asegúrate de que esta es la ruta correcta
+      .then(response => {
+        setWarehouses(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching warehouses:", error);
+      });
+  }, []);
+
+
+  useEffect(() => {
     const manufacturerId = 'id_yuya'; // Replace with actual manufacturer ID
     axios.get(`http://localhost:4000/manufacturer/${manufacturerId}/products`)
       .then(response => {
@@ -67,7 +90,7 @@ function Manufacturer() {
 
   return (
 
-    <div>
+    <><div>
       <div className="mb-4">
         <label
           htmlFor="manufacturer-select"
@@ -100,7 +123,7 @@ function Manufacturer() {
               <div key={index} className="group">
                 <div>
                   <h3 className="mt-4 text-sm text-gray-700">
-                      {supplier.name}
+                    {supplier.name}
                   </h3>
                 </div>
               </div>
@@ -115,12 +138,9 @@ function Manufacturer() {
             <div key={index} className="group w-1/2 h-1/2">
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                 <img
-                  src={
-                    'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'
-                  }
+                  src={'https://www.svgrepo.com/show/508699/landscape-placeholder.svg'}
                   alt={product}
-                  className="w-full h-[10rem] object-center object-cover"
-                />
+                  className="w-full h-[10rem] object-center object-cover" />
               </div>
               <div>
                 <h3 className="mt-4 text-sm text-gray-700">
@@ -131,7 +151,26 @@ function Manufacturer() {
           ))}
         </div>
       </div>
-    </div>
+    </div><div className="mb-4">
+        <h2 className="text-lg font-medium text-gray-700">Warehouse Certifications:</h2>
+        {warehouses.length > 0 ? (
+          <div>
+            {warehouses.map((warehouse) => (
+              <div key={warehouse.id} className="mb-2">
+                <h3 className="text-sm font-semibold">{warehouse.name} Certifications:</h3>
+                <ul className="list-disc list-inside">
+                  {warehouse.certifications.map((certification, index) => (
+                    <li key={index}>{certification}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No warehouse certifications found.</p>
+        )}
+      </div></>
+
   );
 }
 
