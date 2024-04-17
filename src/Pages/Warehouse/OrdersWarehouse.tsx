@@ -10,45 +10,42 @@ interface Order {
   warehouses: string[];
 }
 
-interface Retailer {
+interface Warehouse {
   id: string;
   name: string;
-  website: string;
-  store_type: string;
 }
 
 export default function OrdersWarehouse() {
   const [orders, setOrders] = useState<Order[]>([]);
-  const [retailers, setRetailers] = useState<Retailer[]>([]);
-  const [selectedRetailer, setSelectedRetailer] = useState<string>('');
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<string>('');
 
   useEffect(() => {
-    fetchRetailers();
+    fetchWarehouses();
   }, []);
 
   useEffect(() => {
-    if (selectedRetailer) {
-      fetchOrders(selectedRetailer);
+    if (selectedWarehouse) {
+      fetchOrders(selectedWarehouse);
     }
-  }, [selectedRetailer]);
+  }, [selectedWarehouse]);
 
-  async function fetchRetailers() {
-    try {
-      const { data } = await axios.get('http://localhost:4000/retail');
-      setRetailers(data);
-      if (data.length > 0) {
-        setSelectedRetailer(data[0].id);
-      }
-    } catch (error) {
-      console.error(error);
+  async function fetchWarehouses() {
+  try {
+    const { data } = await axios.get('http://localhost:4000/warehouse');
+    setWarehouses(data);
+    if (data.length > 0) {
+      setSelectedWarehouse(data[0].id);
     }
+  } catch (error) {
+    console.error(error);
   }
+}
 
-  async function fetchOrders(retailerId: string) {
+
+  async function fetchOrders(warehouseId: string) {
     try {
-      const { data } = await axios.get(
-        `http://localhost:4000/retail/${retailerId}/orders/`
-      );
+      const { data } = await axios.get('http://localhost:4000/warehouse/orders');
       setOrders(data);
       console.log('Orders:', data);
     } catch (error) {
@@ -56,10 +53,11 @@ export default function OrdersWarehouse() {
     }
   }
 
+
   const handleRetailerChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setSelectedRetailer(event.target.value);
+    setSelectedWarehouse(event.target.value);
   };
 
   return (
@@ -75,12 +73,12 @@ export default function OrdersWarehouse() {
         <select
           id="retailer-select"
           className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          value={selectedRetailer}
+          value={selectedWarehouse}
           onChange={handleRetailerChange}
         >
-          {retailers.map((retailer) => (
-            <option key={retailer.id} value={retailer.id}>
-              {retailer.name}
+          {warehouses.map((warehouse) => (
+            <option key={warehouse.id} value={warehouse.id}>
+              {warehouse.name}
             </option>
           ))}
         </select>
@@ -109,7 +107,7 @@ export default function OrdersWarehouse() {
               <strong>Total:</strong> {order.total.toFixed(2)} USD
             </p>
             <p className="text-gray-600 mb-2">
-              <strong>Warehouses:</strong> {order.warehouses.join(', ')}
+              
             </p>
           </div>
         ))}
