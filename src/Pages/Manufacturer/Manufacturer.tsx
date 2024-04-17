@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 type Supplier = {
   id: string;
@@ -45,7 +44,7 @@ function Manufacturer() {
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
         <div className="mb-4">
           <h1 className="block text-sm font-medium text-gray-700">
-            Suppliers for Makeup Manufacturer:
+            Suppliers for current Makeup Manufacturer:
           </h1>
           <div className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             {Array.isArray(suppliers) && suppliers.map((supplier, index) => (

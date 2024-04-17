@@ -10,11 +10,7 @@ import Cart from './Pages/Retail/Cart';
 import { Toaster } from 'sonner';
 import Order from './Pages/Retail/Order';
 import  Manufacturer  from './Pages/Manufacturer/Manufacturer';
-
-function Warehouse() {
-  return <h1>Warehouse Layout</h1>;
-
-}
+import Warehouse from './Pages/Warehouse/Stock';
 
 
 function App() {
