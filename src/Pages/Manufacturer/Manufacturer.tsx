@@ -31,12 +31,15 @@ function Manufacturer() {
     axios.get(`http://localhost:4000/manufacturer/${manufacturerId}/products`)
       .then(response => {
         setProducts(response.data);
-        console.log(response.data)
       })
       .catch(error => {
         console.error(error);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(products);
+  }, [products]);
 
   return (
 
@@ -61,16 +64,14 @@ function Manufacturer() {
       </div>
 
       <div>
-        <h1>Products for Manufacturer:</h1>
-        {Array.isArray(products) && (
-          <ul>
-            {products.map((product, index) => (
-              <li key={index}>
-                {product.name}
-              </li>
-            ))}
-          </ul>
-        )}
+        <h2 className="block text-sm font-medium text-gray-700 mt-4">
+            Products for current Makeup Manufacturer:
+          </h2>
+          {products.map((product, index) => (
+            <div key={index}>
+              {product}
+            </div>
+          ))}
       </div>
     </div>
   );

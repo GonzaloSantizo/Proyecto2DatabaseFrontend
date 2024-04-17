@@ -13,6 +13,7 @@ import  Manufacturer  from './Pages/Manufacturer/Manufacturer';
 import Warehouse from './Pages/Warehouse/Stock';
 
 
+
 function App() {
   return (
     <CartProvider>
