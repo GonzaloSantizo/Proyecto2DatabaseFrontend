@@ -82,7 +82,7 @@ export default function Products() {
           {warehouses &&
             warehouses.map((warehouse: Warehouse) => (
               <option key={warehouse.id} value={warehouse.id}>
-                {warehouse.name}
+                {warehouse.name || 'Unknown'}
               </option>
             ))}
         </select>

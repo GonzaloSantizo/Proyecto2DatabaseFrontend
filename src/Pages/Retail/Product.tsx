@@ -2,6 +2,8 @@ import axios from 'axios';
 import { ShoppingCartIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useCart } from './CartContext';
+import { toast } from 'sonner';
 
 type Product = {
   id: string;
@@ -59,6 +61,23 @@ export default function Product() {
   const { productId } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
 
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (product) => {
+    console.log('Adding to cart:', product);
+    toast.success('Added to cart', {
+      position: 'bottom-right',
+      duration: 1000,
+    });
+    addToCart({
+      id: product.id,
+      name: product.name,
+      quantity: 1,
+      price: product.price,
+      warehouse: product.warehouse,
+    });
+  };
+
   useEffect(() => {
     axios
       .get(`http://localhost:4000/retail/products/${productId}`)
@@ -107,7 +126,10 @@ export default function Product() {
             <NumericInput />
           </div>
 
-          <button className="flex flex-1  justify-center gap-2 items-center h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded transition-colors">
+          <button
+            className="flex flex-1  justify-center gap-2 items-center h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded transition-colors"
+            onClick={() => handleAddToCart(product)}
+          >
             <ShoppingCartIcon size={15} /> Add to Cart
           </button>
         </div>

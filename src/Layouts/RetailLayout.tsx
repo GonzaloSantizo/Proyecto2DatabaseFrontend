@@ -19,7 +19,7 @@ export default function RetailLayout() {
           <NavLink
             to="cart"
             className={({ isActive }) =>
-              isActive ? 'text-blue-500' : 'text-gray-500'
+              isActive ? 'text-blue-500 font-bold' : 'text-gray-500'
             }
           >
             Cart
@@ -27,7 +27,7 @@ export default function RetailLayout() {
           <NavLink
             to="orders"
             className={({ isActive }) =>
-              isActive ? 'text-blue-500' : 'text-gray-500'
+              isActive ? 'text-blue-500 font-bold' : 'text-gray-500'
             }
           >
             Orders

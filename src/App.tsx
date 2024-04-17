@@ -1,12 +1,14 @@
 import './App.css';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import RetailLayout from './Layouts/RetailLayout';
 import Products from './Pages/Retail/Products';
-import { Button, Flex } from '@mantine/core';
 import Main from './Pages/Main';
 import Product from './Pages/Retail/Product';
 import Orders from './Pages/Retail/Orders';
-//import { CartProvider } from './Pages/Retail/CartContext'
+import { CartProvider } from './Pages/Retail/CartContext';
+import Cart from './Pages/Retail/Cart';
+import { Toaster } from 'sonner';
+import Order from './Pages/Retail/Order';
 
 function Warehouse() {
   return <h1>Warehouse Layout</h1>;
@@ -19,19 +21,24 @@ function Manufacturer() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Main />} />
-      <Route path="/retail" element={<RetailLayout />}>
-        <Route path="products" element={<Products />} />
-        <Route path="products/:productId" element={<Product />} />
-        <Route path="orders" element={<Orders />} />
-      </Route>
+    <CartProvider>
+      <Toaster richColors />
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/retail" element={<RetailLayout />}>
+          <Route path="products" element={<Products />} />
+          <Route path="products/:productId" element={<Product />} />
+          <Route path="cart" element={<Cart />} />
+          <Route path="orders" element={<Orders />} />
+          <Route path="order/:orderId" element={<Order />} />
+        </Route>
 
-      <Route path="/warehouse" element={<Warehouse />}>
-        <Route index element={<Warehouse />} />
-      </Route>
-      <Route path="/manufacturer" element={<Manufacturer />} />
-    </Routes>
+        <Route path="/warehouse" element={<Warehouse />}>
+          <Route index element={<Warehouse />} />
+        </Route>
+        <Route path="/manufacturer" element={<Manufacturer />} />
+      </Routes>
+    </CartProvider>
   );
 }
 export default App;

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 interface Order {
   id: string;
   status: string;
   placed_at: string;
   total: number;
-  warehouse: string;
+  warehouses: string[];
 }
 
 interface Retailer {
@@ -49,6 +50,7 @@ export default function OrderList() {
         `http://localhost:4000/retail/${retailerId}/orders/`
       );
       setOrders(data);
+      console.log('Orders:', data);
     } catch (error) {
       console.error(error);
     }
@@ -88,7 +90,9 @@ export default function OrderList() {
           <div key={order.id} className="bg-white shadow-md rounded-lg p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold">
-                ORD-{order.id.slice(0, 5).toUpperCase()}
+                <Link to={`/retail/order/${order.id}`}>
+                  ORD-{order.id.slice(0, 5).toUpperCase()}
+                </Link>
               </h2>
               <span
                 className={`px-2 py-1 text-sm  font-bold rounded ${getStatusColor(
@@ -105,7 +109,7 @@ export default function OrderList() {
               <strong>Total:</strong> {order.total.toFixed(2)} USD
             </p>
             <p className="text-gray-600 mb-2">
-              <strong>Warehouse:</strong> {order.warehouse}
+              <strong>Warehouses:</strong> {order.warehouses.join(', ')}
             </p>
           </div>
         ))}
