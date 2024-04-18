@@ -48,6 +48,7 @@ export default function Order() {
       const { data } = await axios.get(
         `http://localhost:4000/retail/orders/${orderId}`
       );
+
       setOrder(data);
     } catch (error) {
       console.error('Error fetching order:', error);

@@ -31,28 +31,28 @@ export default function OrdersWarehouse() {
   }, [selectedWarehouse]);
 
   async function fetchWarehouses() {
-  try {
-    const { data } = await axios.get('http://localhost:4000/warehouse');
-    setWarehouses(data);
-    if (data.length > 0) {
-      setSelectedWarehouse(data[0].id);
+    try {
+      const { data } = await axios.get('http://localhost:4000/warehouse');
+      setWarehouses(data);
+      if (data.length > 0) {
+        setSelectedWarehouse(data[0].id);
+      }
+    } catch (error) {
+      console.error(error);
     }
-  } catch (error) {
-    console.error(error);
   }
-}
-
 
   async function fetchOrders(warehouseId: string) {
     try {
-      const { data } = await axios.get('http://localhost:4000/warehouse/orders');
+      const { data } = await axios.get(
+        'http://localhost:4000/warehouse/orders'
+      );
       setOrders(data);
       console.log('Orders:', data);
     } catch (error) {
       console.error(error);
     }
   }
-
 
   const handleRetailerChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -64,7 +64,7 @@ export default function OrdersWarehouse() {
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-4 text-center">Order List</h1>
       <div className="mb-4">
-        <label
+        {/* <label
           htmlFor="retailer-select"
           className="block text-sm font-medium text-gray-700"
         >
@@ -81,7 +81,7 @@ export default function OrdersWarehouse() {
               {warehouse.name}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {orders.map((order) => (
@@ -107,7 +107,7 @@ export default function OrdersWarehouse() {
               <strong>Total:</strong> {order.total.toFixed(2)} USD
             </p>
             <p className="text-gray-600 mb-2">
-              
+              <strong>Warehouses:</strong> {order.warehouse}
             </p>
           </div>
         ))}
