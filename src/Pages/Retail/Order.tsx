@@ -7,6 +7,7 @@ import {
   FaWarehouse,
 } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 interface Product {
   price: number;
@@ -117,6 +118,25 @@ export default function Order() {
                   ? `$${shipment.shippingCost.toFixed(2)}`
                   : 'N/A'}
               </p>
+
+              {/* receive order button */}
+              <button
+                className="mt-4 bg-blue-500 text-white font-semibold px-4 py-2 rounded-md"
+                onClick={async () => {
+                  try {
+                    const res = await axios.post(
+                      `http://localhost:4000/retail/orders/${order?.id}/receive`
+                    );
+                    console.log('Order received:', res.data);
+                    fetchOrder();
+                    toast.success('Order received successfully');
+                  } catch (error) {
+                    console.error('Error receiving order:', error);
+                  }
+                }}
+              >
+                Receive Order
+              </button>
             </div>
           ))
         ) : (
